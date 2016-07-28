@@ -1,0 +1,269 @@
+body{
+	background-color: #eeeeee !important;
+	font-size:0.9em;
+}
+nav {
+	font-size:0.4em !important;
+	max-height:50px;
+}
+
+nav ul li,nav a{
+	line-height: 50px ;
+	max-height:50px;
+}
+nav h4{
+	line-height: 10px;
+}
+.btn {
+	text-align: center !important;
+	padding-top: 8px !important;
+}
+.smallDPholder{
+	float:left;
+	width:60px;
+	height:60px;
+	position:relative;
+	margin-right:20px;
+	overflow: hidden;
+}
+.smallDPholder img{
+	height:100%;
+	width:100%;
+	float:right;
+}
+.largeDPholder img{
+	height:100%;
+	width:100%;
+	float:right;
+}
+.time{
+	font-size:0.6em;
+	color:grey;
+}
+.number{
+	font-size:0.8em;
+	color:grey;
+	margin-left:2px;
+}
+.coll{
+	position:relative;
+	top:0px;
+	left:0px;
+	width:100%;
+}
+.coll-body{
+	position:absolute;
+	top:40px;
+	left:0px;
+	display:none;
+	width:100%;
+}
+.coll-header{
+	text-align: center;
+	padding:10px;
+	position:relative;
+	left:0px;
+	top:0px;
+	height:40px;
+	display:inline-block;
+	float:left;
+	width:50%;
+}
+.active{
+	background-color:#FDFDFD;
+	color:blue;
+	font-weight: bold;
+	border-bottom: 2px solid blue;
+}
+
+.eventCard{
+	display:inline-block;
+	margin:20 0 20 0px;
+	background-color:#FEFEFE;
+	width:100%;
+	padding:40px;
+}
+.clubCard{
+	display:inline-block;
+	margin:5 0 5 0px;
+	background-color:#FEFEFE;
+	width:100%;
+	padding:40px;
+}
+.shareCard{
+	padding-left:10px !important;
+	padding-right:10px !important;
+	display:inline-block;
+	margin:5 0 5 0px;
+	background-color:#FEFEFE;
+	width:100%;
+}
+.postCard{
+	padding-left:10px !important;
+	padding-right:10px !important;
+	display:inline-block;
+	margin:5 0 5 0px;
+	background-color:#FEFEFE;
+	width:100%;
+}
+.photoCard{
+	padding-left:10px !important;
+	padding-right:10px !important;
+	display:inline-block;
+	margin:20 0 20 0px;
+	background-color:#FEFEFE;
+	width:100%;
+}
+.photoCard img{
+	display:inline;
+	position:relative;
+	margin:-20 0 -20 0px;
+	background-color:#FEFEFE;
+	height:;
+	width:;
+	padding:0px;	
+}
+.sharecard .postcard{
+	display:inline;
+	width:90%;
+}
+.comments{
+	width:60%;
+	height:20%;
+	border:0.5px solid #EEEEEE;
+	padding:10px;
+	display:block;
+}
+.like{
+	cursor:hand;
+}
+.commentsection{
+	/*background-color: red;*/
+	display:none;
+	background-color:#FAFAFA;
+	padding-right: 30px;
+	padding-left: 30px;
+}
+
+/*chatting components*/
+.chatCard{
+	/* class for msg boxes insite chat panel*/
+	width:100%;
+	border:0px solid #EEEEEE;
+	padding:0px;
+	display:block;
+	float:right;
+	overflow:auto;
+}
+.ChatArea{
+	width:200px;
+	display:inline-block;
+	position:fixed;
+	bottom:0px;
+	right:200px;
+}
+.ChatArea div {
+	display:inline-block;
+	position:relative;
+	right:0px;
+	bottom:0px;
+	height:auto;
+	background-color:white;
+	
+}
+#chatboxheader{
+	width:100%;
+	padding:3px;
+	background-color:blue;
+	color:white;
+	font-weight: bold;
+}
+.ChatArea  textarea, button{
+	position: relative;
+	height:30px;
+	max-height: 15%;
+	bottom:0px;
+	margin:0px;
+	display: inline-block;
+}
+.ChatArea button{
+	right:0px;
+	width:20%;
+	color:blue;
+
+}
+.ChatArea textarea{
+	float:left;
+	width:80%;
+}
+#chatbox{
+	position:relative;
+	width:100%;
+	height:200px;
+	top:0px;
+	left:0px;
+	background-color:#FDFDFD;
+	max-height: 92%;
+	overflow:auto;
+}
+
+.onlinefriendsholder{
+	position:fixed;
+	bottom:0px;
+	right:0px;
+	float:right;	
+	display:block;
+	width:15%;
+	background-color:#EFEFEF;
+	overflow: auto;
+}
+#onlinefriendsheader{
+	text-align: center;
+		background-color:#FCFCFC;
+		padding:5px;
+}
+.chat{
+	font-size: 0.8em;
+	width:100%;
+	height:50px;
+	display:block;
+	text-align: center;
+	overflow: hidden;
+}
+.chat:hover{
+	background-color:#DADADA;
+}
+.contact .smallDPholder{
+	width:100%;
+}
+.chat .name{
+	font-weight: bold;
+	line-height: 50px;
+}
+
+/*Friend Suggestions*/
+.suggestion{
+	width:100%;
+	display:inline-block;
+	position:relative;
+	top:-40%;
+	left:0px;
+	background-color: white;
+}
+.suggestion .row:hover{
+	background-color: #EFEFEF;
+}
+
+/*scrollbars */
+.messages::-webkit-scrollbar {
+    width: 0.3em;
+}
+ 
+.messages::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.5);
+}
+ 
+.messages::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
