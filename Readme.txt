@@ -1,5 +1,5 @@
 // This is a project created purelyfor learning and practising HTML,Css(Materialize),Javascript(Jquery),Ajax,Mysql and Php
-// Projecte created by Anurag Balhra(B.Tech student at IIT Jodhpur)
+// Project created by Anurag Balhra(B.Tech student at IIT Jodhpur)
 
 Database structure:-
 	Organiser (Database)
