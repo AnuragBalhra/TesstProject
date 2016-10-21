@@ -1,9 +1,13 @@
 <?php
-include("dblib.inc");
+// echo"123";
+include("dblib.php");
 include("clublib.php");
+// echo"123";
 
 $message="";
 SetVariables();
+// echo"123";
+
 if(isset($_SESSION["session"]["logged_in"]) && $_SESSION["session"]["logged_in"]==true){
 	$_SESSION["session"]["error"]="Already logged in";
 	header("Location:index.php");
@@ -26,6 +30,8 @@ else{
 		}
 	}
 }
+// echo"123";
+
 ?>
 
 <html>

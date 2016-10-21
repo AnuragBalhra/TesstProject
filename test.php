@@ -1,6 +1,6 @@
 <?php
 include("clublib.php");
-include("dblib.inc");
+include("dblib.php");
 SetVariables();
 ?>
 <html>

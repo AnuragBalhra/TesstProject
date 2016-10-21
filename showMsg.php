@@ -1,5 +1,5 @@
 <?php
-include("dblib.inc");
+include("dblib.php");
 include("clublib.php");
 
 

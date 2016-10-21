@@ -1,5 +1,5 @@
 <?php
-include("dblib.inc");
+include("dblib.php");
 include("clublib.php");
 SetVariables();
 if(isset($_REQUEST["actionflag"]) && $_REQUEST["actionflag"]=="comment"){

@@ -1,6 +1,6 @@
 <?php
 // include("clublib.php");
-// include("dblib.inc");
+// include("dblib.php");
 // SetVariables();
 ?>
 <html>
@@ -143,7 +143,7 @@ $('body').on('click','.contact', function(){
   
 
   function startChat(boxtitle){
-  setInterval( function() { getChatText(boxtitle); }, 10000);
+  setInterval( function() { getChatText(boxtitle); }, 1000);
       setScroll();
   }
   function sendChatText(refbox){

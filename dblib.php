@@ -1,12 +1,16 @@
 <?php 
+	// echo "Dblib";
 	session_start();
 
 $link;
+
 function connectToDB(){
 	//connects to mySQL server 
 	global $link;
-	$link=mysql_connect("localhost","newaccount","newpass") or die("Couldn't connect to database:\t".mysql_error());
-	mysql_select_db("Organizer",$link) or die("Couldn't open Oranizer:".mysql_error());
+	$link=mysql_connect("sql6.freemysqlhosting.net","sql6141015","6TM7JcytVz") or die("Couldn't connect to database:\t".mysql_error());
+	// $link=mysql_connect("localhost","newaccount","newpass") or die("Couldn't connect to database:\t".mysql_error());
+	mysql_select_db("sql6141015",$link) or die("Couldn't open Oranizer:".mysql_error());
+	// mysql_select_db("Organiser",$link) or die("Couldn't open Oranizer:".mysql_error());
 }
 function addArea($area){
 	global $link;
@@ -34,7 +38,7 @@ function getRow($table, $fnam, $fval){
 function newUser( $login, $pass){
 	///adds new user and club to database
 	global $link;
-	$result= mysql_query(" INSERT INTO members(login, password) VALUES('$login', '$pass')", $link);
+	$result= mysql_query(" INSERT INTO members(login, password, DP) VALUES('$login', '$pass', 'uploads/default.png')", $link);
 	$result= mysql_insert_id($link);
 	
 	$result= mysql_query(" INSERT INTO clubs(user_id) VALUES('$result')", $link);
@@ -148,6 +152,7 @@ function getDP($login){
 	$row =mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE login='$login' ", $link ) );
 	echo "<img src=' ".$row["DP"]." ' alt='DP' class='responsive-img '>";
 }
+
 function addComment($comment, $post_id, $user, $comment_on){
 	//to add a comment on a post
 	global $link;
@@ -155,12 +160,13 @@ function addComment($comment, $post_id, $user, $comment_on){
 	$user_id=$user_row["id"];
 	$result= mysql_query(" INSERT INTO comments(description, post_id, user_id, comment_on) VALUES ('$comment', '$post_id', '$user_id', '$comment_on') ", $link) or die(mysql_error());
 	$post= mysql_query(" SELECT * FROM posts WHERE id='$post_id' ", $link) or die(mysql_error());
-	$comments=mysql_fetch_row($post)[7];//returns number of comments
+	$comments=mysql_fetch_row($post);
+	$comments=$comments[7];//returns number of comments
 	$comments=$comments+1;
 	echo "add no of comments=".$comments."<br>";
 	mysql_query(" UPDATE posts SET comments='$comments' WHERE id='$post_id' ",$link) or die(mysql_error());
-
 }
+
 function printComments( $post_id, $comment_on){
 	//to print all comments on given post
 	global $link;
@@ -313,92 +319,26 @@ function printPosts($user_id ){
 }
 
 
-// ************			part of unsucessful attempt to fetch posts using ajax      *******************//
-
-
-
-// function fetchPostsData($user_id, $time ){
-// 	//to fetch Data of all posts of a user
-// 	global $link;
-// 	// first select all posts, shares, likes of user whose wall has to be printed
-// 	$result=" SELECT id,user_id,IsShare,time FROM posts WHERE user_id='$user_id' And time>'$time' UNION SELECT post_id,user_id,IsShare,time FROM shares WHERE user_id='$user_id' And time>'$time' UNION SELECT post_id,user_id,IsShare,time FROM likes WHERE user_id='$user_id' And time>'$time' ";
-// 	// now select all friends of given user
-// 	$friends=mysql_query(" SELECT user1_id FROM friends WHERE (status='success' And user2_id='$user_id') UNION SELECT user2_id FROM friends WHERE (status='success' And user1_id='$user_id') ",$link) or die(mysql_error() );
-	
-// 	// now select all posts, shares, likes of all friends one by one
-// 	while($arr=mysql_fetch_row($friends)){
-// 		$value=$arr[0];//this is the user_id of friend 
-// 		$result= " SELECT id,user_id,IsShare,time FROM posts WHERE user_id='$value' And time>'$time' UNION SELECT post_id,user_id,IsShare,time FROM shares WHERE user_id='$value' And time>'$time' UNION SELECT post_id,user_id,IsShare,time FROM likes WHERE user_id='$value' And time>'$time' UNION  ".$result."  ";
-// 	}
-// 	$result= $result." ORDER BY time DESC";
-// 	$result= mysql_query( $result, $link) or die(mysql_error());
-
-
-// 	//	$arr will hold data as a json object
-// 	//	for posts it contains all post Details
-// 	$arr=array();
-// 	$time=0;
-// 	while(	$row=mysql_fetch_array($result)){	
-// 		if($time==0){array_push($arr, array("time"=>$row["time"] ));$time=$row["time"];}
-// 		if($row["IsShare"]=='1'){
-// 			// IsShare== 0 means original post
-// 			// 1 means shared post
-// 			// 2 means photo post
-// 			// 3 means likedpost
-// 			$share_user=getRow("members","id", $row["user_id"]);
-// 			$post_row=getRow("posts", "id", $row[0]);
-// 			$user=getRow("members","id", $post_row["user_id"]);
-
-// 			array_push($arr, array( "IsShare"=>$row["IsShare"], "id"=>$post_row["id"], "post"=>$post_row["post"], "user_id"=>$post_row["user_id"], "user_DP"=>$user["DP"], "time"=>$post_row["time"], "likes"=>$post_row["likes"], "shares"=>$post_row["shares"], "comments"=>$post_row["comments"], "share_user_id"=>$row["user_id"], "share_user_DP"=>$share_user["DP"], "share_time"=>$row["time"]  ) );
-// 		}
-// 		else if($row["IsShare"]=='3'){
-// 			$post_row=getRow("posts", "id", $row[0]);
-// 			$like_user=getRow("members","id", $row["user_id"]);
-// 			$user=getRow("members","id", $post_row["user_id"]);
-
-// 			array_push($arr, array( "IsShare"=>$row["IsShare"], "id"=>$post_row["id"], "post"=>$post_row["post"], "user_id"=>$post_row["user_id"], "user_DP"=>$user["DP"], "time"=>$post_row["time"], "likes"=>$post_row["likes"], "shares"=>$post_row["shares"], "comments"=>$post_row["comments"], "like_user_id"=>$row["user_id"], "like_user_DP"=>$like_user["DP"], "like_time"=>$row["time"]  ) );
-// 		}
-// 		else if($row["IsShare"]=='2'){
-// 			$photos=array();
-// 			$user=getRow("members","id", $post_row["user_id"]);
-
-// 			$photoAddr=mysql_query(" SELECT photoAddr FROM photos WHERE post_id='$photoPost_id' ",$link);
-// 			$i=0;
-// 			while($var=mysql_fetch_array($photoAddr)){
-// 				array_push($photos, "photo".$i=$var["photoAddr"]);
-// 			}
-// 			array_push($arr, array( "IsShare"=>$row["IsShare"], "id"=>$row["id"], "post"=>$row["post"], "user_id"=>$row["user_id"], "user_DP"=>$user["DP"], "time"=>$row["time"], "likes"=>$row["likes"], "shares"=>$row["shares"], "comments"=>$row["comments"], "photos"=>$photos  ) );
-// 		}
-// 		else{
-// 			$post_row=getRow("posts", "id", $row["id"]);
-// 			$user=getRow("members","id", $post_row["user_id"]);
-// 			array_push($arr, array( "IsShare"=>$post_row["IsShare"], "id"=>$post_row["id"], "post"=>$post_row["post"], "user_id"=>$post_row["user_id"], "user_DP"=>$user["DP"], "time"=>$post_row["time"], "likes"=>$post_row["likes"], "shares"=>$post_row["shares"], "comments"=>$post_row["comments"]  ) );
-// 		}
-// 	}
-// 	return json_encode($arr);
-// }
-
-
-
-
-
-
 function like($post_id){
 	global $link;
 	$user_id=$_SESSION["session"]["id"];
 	$result= mysql_query(" INSERT INTO likes( user_id, post_id ) VALUES ('$user_id', '$post_id') ", $link) or die(mysql_error());	
 	$post_row=mysql_query(" SELECT likes FROM posts WHERE id='$post_id' ", $link);
-	$likes=mysql_fetch_row($post_row)[0];
+	$likes=mysql_fetch_row($post_row);
+	$likes=$likes[0];
 	$likes=$likes+1;
 	mysql_query(" UPDATE posts SET likes='$likes' WHERE id='$post_id' ",$link) or die(mysql_error());
 	return $likes;
 }
+
+
 function Unlike($post_id){
 	global $link;
 	$user_id=$_SESSION["session"]["id"];
 	$result= mysql_query(" DELETE FROM likes WHERE user_id='$user_id' And post_id ='$post_id' ", $link) or die(mysql_error());	
 	$post_row=mysql_query(" SELECT likes FROM posts WHERE id='$post_id' ", $link);
-	$likes=mysql_fetch_row($post_row)[0];
+	$likes=mysql_fetch_row($post_row);
+	$likes=$likes[0];
 	$likes=$likes-1;
 	mysql_query(" UPDATE posts SET likes='$likes' WHERE id='$post_id' ",$link) or die(mysql_error());
 	return $likes;
@@ -408,7 +348,8 @@ function share($post_id){
 	$user_id=$_SESSION["session"]["id"];
 	$result= mysql_query(" INSERT INTO shares( user_id, post_id ) VALUES ('$user_id', '$post_id') ", $link) or die(mysql_error());	
 	$post_row=mysql_query(" SELECT shares FROM posts WHERE id='$post_id' ", $link);
-	$shares=mysql_fetch_row($post_row)[0];
+	$shares=mysql_fetch_row($post_row);
+	$shares=$shares[0];
 	$shares=$shares+1;
 	mysql_query(" UPDATE posts SET shares='$shares' WHERE id='$post_id' ",$link) or die(mysql_error());
 	return $shares;
@@ -428,6 +369,7 @@ function printNotifications( ){
 		if($row[3]=='unread'){echo "</b>";}
 	}
 }
+
 function readNotification($notif_id){
 	//to change status of a notification from unread to read
 	global $link;
@@ -443,7 +385,9 @@ function sendRequest($user2_id){
 	//for sending a friend request
 	global $link;
 	$user1_id=$_SESSION["session"]["id"];
-	$user1_name=mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user1_id' ", $link) )["firstname"];
+	// echo $user1_id;
+	$user1_name=mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user1_id' ", $link) );
+	$user1_name=$user1_name["firstname"];
 	$arr =mysql_query("SELECT * FROM friends WHERE user1_id='$user1_id' And user2_id='$user2_id' ", $link) or die(mysql_error()) ;
 	$arr2 =mysql_query("SELECT * FROM friends WHERE user1_id='$user2_id' And user2_id='$user1_id' ", $link) or die(mysql_error()) ;
 	$row=mysql_fetch_array($arr);
@@ -455,13 +399,19 @@ function sendRequest($user2_id){
 		$result= mysql_query(" INSERT INTO notifications(notification, user_id, status, request_id) VALUES ('$user1_name has sent you a friend request ', '$user2_id', 'unread', $request_id) ",$link) or die(mysql_error());
 	}
 }
+
 function requestResponse( $response, $notif_id){
 	//for responding to a friend request
 	global $link;
 	$user2_id=$_SESSION["session"]["id"];
-	$user2_name=mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user2_id' ", $link) )[5]." ".mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user2_id' ", $link) )[6];
+	$user2_fname=mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user2_id' ", $link) );
+	$user2_fname=$user2_fname[5];
+	$user2_lname=mysql_fetch_array(mysql_query(" SELECT * FROM members WHERE id='$user2_id' ", $link) );
+	$user2_lname=$user2_lname[6];
+	$user2_name=$user2_fname." ".$user2_lname;
 	$var =mysql_query(" SELECT * FROM notifications WHERE id='$notif_id' ", $link);
-	$request_id =mysql_fetch_array($var)[4];
+	$request_id =mysql_fetch_array($var);
+	$request_id=$request_id[4];
 	$friends_Result=mysql_query(" SELECT * FROM friends WHERE id='$request_id' ", $link);
 	$request_Row=mysql_fetch_array($friends_Result);
 	$user1_id=$request_Row["user1_id"];
@@ -475,6 +425,7 @@ function requestResponse( $response, $notif_id){
 		
 	}
 }
+
 function unreadNotifications(){
 	//returns total number of unread notifications
 	global $link;
@@ -523,15 +474,19 @@ function areFriends($user1_id, $user2_id){
 	$result=mysql_query(" SELECT * FROM friends WHERE (user1_id='$user1_id' And user2_id='$user2_id') UNION SELECT * FROM friends WHERE (user1_id='$user2_id' And user2_id='$user1_id') ",$link) or die(mysql_error() );
 	
 	$arr=mysql_fetch_row($result);
-	if(empty($arr)){$friends="no";}
-	else{$friends="yes";}
-
-	if($friends=="no"){
-		return 1;
-	}
+	//echo "Request Status ".$arr[2];
+	if(empty($arr)){$friends=0;return $friends;}
 	else{
-		return 0;
-	}	
+		if($user2_id==$arr[0]){
+			$friends=2;//means current user has sent a pending request
+			return $friends;
+		}
+		else{
+			$friends=1;
+			return $friends;
+		}
+	}
+	echo "Are They Friends???".$friends."<br>";
 }
 function isOnline($user_id){
 	global $link;
@@ -776,5 +731,6 @@ function printLeftPane(){
 	<?php
 
 }
+
 
 ?>

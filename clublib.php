@@ -1,6 +1,8 @@
 <?php
+// echo "ClubLibOpening";
 // if(!isset($_SESSION["session"])){session_start();}	 
 function SetVariables( ){
+	// echo "SetVariables Working";
 	connecttoDB();
 	if(isset($_REQUEST["actionflag"]) && $_REQUEST["actionflag"]=="login")
 {

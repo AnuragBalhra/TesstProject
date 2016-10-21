@@ -1,5 +1,5 @@
 <?php
-include("dblib.inc");
+include("dblib.php");
 include("clublib.php");
 
 $club_row=checkUserSession("members", "login", $_SESSION["session"]["login"]);

@@ -1,5 +1,5 @@
 <?php
-include("dblib.inc");
+include("dblib.php");
 include("clublib.php");
 SetVariables();
 
@@ -56,17 +56,21 @@ include("publicnav.inc");
 				DateOfBirth: <?php echo $memberInfo["dob"] ?><br><br>
 				Area: <?php $row=getRow("areas","id",$memberInfo["area_id"]);echo $row["value"] ;?><br><br>
 				<?php
-				if(areFriends($_REQUEST["user_id"], $_SESSION["session"]["id"] ) ){
-					if($_SESSION["session"]["id"]!=$_REQUEST["user_id"] && empty($_REQUEST["user2"])){
-						echo "<a href='".$_SERVER["PHP_SELF"]."?user_id=".$_REQUEST["user_id"]."&"."user2_id=".$_REQUEST["user_id"]." ' class='waves-effect waves-light btn'>Add Friend</a>";
-					}	
-					
-				}
-				else if(areFriends($_REQUEST["user_id"], $_SESSION["session"]["id"] )==1){
-					echo "<a class='waves-effect waves-light btn grey'>Friend request sent</a>";
-				}
-				else{
-					echo "<a class='waves-effect waves-light btn grey'>Friends :-)</a>";
+				if($_REQUEST["user_id"]!= $_SESSION["session"]["id"] ){
+
+
+					if(areFriends($_REQUEST["user_id"], $_SESSION["session"]["id"] ) ==1){
+						if($_SESSION["session"]["id"]!=$_REQUEST["user_id"] && empty($_REQUEST["user2"])){
+							echo "<a href='".$_SERVER["PHP_SELF"]."?user_id=".$_REQUEST["user_id"]."&"."user2_id=".$_REQUEST["user_id"]." ' class='waves-effect waves-light btn'>Add Friend</a>";
+						}	
+						
+					}
+					else if(areFriends($_REQUEST["user_id"], $_SESSION["session"]["id"] )==2){
+						echo "<a class='waves-effect waves-light btn grey'>Request sent</a>";
+					}
+					else{
+						echo "<a class='waves-effect waves-light btn grey'>Friends :-)</a>";
+					}
 				}
 				?>
 				</div>

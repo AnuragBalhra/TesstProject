@@ -1,9 +1,8 @@
 <?php
-include("dblib.inc");
+include("dblib.php");
 include("clublib.php");
 
 $message="";
-
 
 if(isset($_SESSION["session"]["logged_in"]) && $_SESSION["session"]["logged_in"]==true){
 	$_SESSION["session"]["error"]="Already logged in";
@@ -13,6 +12,7 @@ if(isset($_SESSION["session"]["logged_in"]) && $_SESSION["session"]["logged_in"]
 else{
 
 	SetVariables();
+// echo"123";
 	// echo "checking session vars<br>";
 	// echo $_SESSION["session"]["id"]."<br>";
 	// echo $_SESSION["session"]["login"]."<br>";
